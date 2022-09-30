@@ -15,8 +15,8 @@ def invoke(command, *arg, **kwarg):
     return cmd['fn'](*arg, **kwarg)
 
 
-def list():
-    return _commands.keys()
+def commands():
+    return list(_commands.keys())
 
 
 def help(command):

@@ -17,7 +17,7 @@ def main():
     parser.add_argument('--tag', default=None, help='set tag filter')
     parser.add_argument('command', nargs=1, help='acre command to run')
 
-    myargs = parser.parse_args()
+    (myargs, options) = parser.parse_known_args()
     loglevel = logging.DEBUG if myargs.debug else logging.INFO
     logging.basicConfig(level=loglevel, format='%(message)s')
     log.debug(myargs)
