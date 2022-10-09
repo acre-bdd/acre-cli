@@ -1,13 +1,13 @@
 import sys
-from acre import log
+from acrecli import log
 
 _commands = {}
 
 
 def invoke(command, *arg, **kwarg):
-    log.debug(f"looking up {command} in {_commands['help']}")
+    log.debug(f"looking up {command} in {_commands}")
     if command not in _commands:
-        log.error('command {command} not found')
+        log.error(f'unknown command: {command}')
         sys.exit(1)
 
     cmd = _commands[command]
@@ -31,13 +31,15 @@ def help(command):
 
 
 def command(usage=None):
-    log.debug(f"adding command: {usage}")
+    log.debug(f"x adding command: {usage}")
     if callable(usage):
         _commands[usage.__name__] = {'fn': usage, 'usage': None}
+        log.debug(f'commands: {_commands}')
         return
 
     def wrapper(wfn):
         _commands[wfn.__name__] = {'fn': wfn, 'usage': usage}
+    log.debug(f'commands: {_commands}')
     return wrapper
 
 

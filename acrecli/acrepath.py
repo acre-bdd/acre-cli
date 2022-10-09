@@ -1,7 +1,7 @@
 import os
 import argparse
 
-from acre import log
+from acrecli import log
 
 
 class AcrePath(argparse.Action):

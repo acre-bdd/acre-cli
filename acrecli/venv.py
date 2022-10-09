@@ -1,5 +1,5 @@
 import subprocess
-from acre.acrepath import AcrePath
+from acrecli.acrepath import AcrePath
 
 
 def run(cmd):

@@ -1,8 +1,9 @@
 import sys
 import argparse
 from subprocess import run
-from acre import log
-from acre import registry
+
+from acrecli import log
+from acrecli import registry
 
 
 def _args():
@@ -27,4 +28,3 @@ def help(args):
         sys.exit(1)
 
     run(f"acre {myargs.command} -h", shell=True)
-
