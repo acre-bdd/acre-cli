@@ -4,6 +4,6 @@ import logging
 log = logging.getLogger()
 
 
-def bailout(ec, message):
+def bailout(message, ec=1):
     log.critical(message)
     sys.exit(ec)

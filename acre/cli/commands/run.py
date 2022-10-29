@@ -16,4 +16,4 @@ def run(args):
 
     docker = Docker()
     docker.build(update=myargs.update)
-    docker.run(f'acre invoke {" ".join(options)}', cwd="testproject/", interactive=not myargs.noterm)
+    return docker.run(f'acre invoke {" ".join(options)}', cwd="testproject/", interactive=not myargs.noterm)

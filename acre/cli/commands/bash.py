@@ -1,6 +1,6 @@
 import argparse
 
-from acre.cli import log
+from acre.cli import log, bailout
 from acre.cli import registry, baseargs
 from acre.cli.docker import Docker
 
@@ -18,5 +18,6 @@ def bash(args):
 
     cmd = f'/usr/local/bin/shell {" ".join(options)}'
     docker = Docker()
-    docker.build()
-    docker.run(cmd, mounts=myargs.mount, interactive=True)
+    if docker.build():
+        bailout("docker build failed")
+    return docker.run(cmd, mounts=myargs.mount, interactive=True)

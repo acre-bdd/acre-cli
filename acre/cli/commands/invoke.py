@@ -23,8 +23,7 @@ def invoke(args):
 
     cmd = f'radish -b ./steps -b {AcrePath.steps()} {userdata} {" ".join(options)}'
 #   cmd = f'radish -b steps {userdata} {" ".join(options)}'
-    log.info(cmd)
-    venv.run(cmd)
+    return venv.run(cmd)
 
 
 def _read_userdata():
@@ -34,6 +33,6 @@ def _read_userdata():
     userdata = []
     for line in open("etc/user.data", "r").readlines():
         if not re.match(r"\w+=.*", line):
-            log.bailout(3, f'invalid user data: {line}')
+            log.bailout(f'invalid user data: {line}', 3)
         userdata.append(f'-u "{line.strip()}"')
     return " ".join(userdata)

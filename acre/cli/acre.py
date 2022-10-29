@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import sys
 import logging
 import argparse
 
@@ -21,8 +21,8 @@ def main():
     log.debug('loading commands...')
     from . import commands  # noqa: F401
 
-    registry.invoke(myargs.command[0], myargs)
+    return registry.invoke(myargs.command[0], myargs)
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
