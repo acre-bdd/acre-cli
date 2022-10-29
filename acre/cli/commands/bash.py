@@ -19,4 +19,4 @@ def bash(args):
     cmd = f'/usr/local/bin/shell {" ".join(options)}'
     docker = Docker()
     docker.build()
-    docker.run(cmd, mounts=myargs.mount)
+    docker.run(cmd, mounts=myargs.mount, interactive=True)

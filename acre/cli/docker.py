@@ -12,9 +12,11 @@ class Docker:
         update = _get_update(update)
         venv.run(f"docker build {update} -t acre-{self.image} {_get_image(self.image)}")
 
-    def run(self, command, cwd=".", mounts=[]):
+    def run(self, command, cwd=".", mounts=[], interactive=False):
         portmap = "-p 9900:9900"
-        venv.run(f"docker run -it {portmap} {self._mapping(mounts)} acre-{self.image} /usr/local/bin/shell 'cd {cwd} && {command}'")
+        it = "-it" if interactive else ""
+        venv.run(f"docker run {it} {portmap} {self._mapping(mounts)} acre-{self.image}"
+                 f" /usr/local/bin/shell 'cd {cwd} && {command}'")
 
     def _mapping(self, mounts):
         map = ""
