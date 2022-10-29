@@ -11,7 +11,7 @@ def init(args):
     parser = argparse.ArgumentParser(description="acre init", usage=__doc__)
     baseargs.add_to(parser)
     parser.add_argument('--docker', nargs=1, help='install acre-docker from the given url',
-                        default="git+https://github.com/realtimeprojects/acre-docker.git")
+                        default=["git+https://github.com/realtimeprojects/acre-docker.git"])
     parser.add_argument('init', nargs=1, help='initialize acre')
     myargs = parser.parse_args()
     log.debug(f"arguments: {myargs}")
