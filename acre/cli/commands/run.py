@@ -1,6 +1,6 @@
 import argparse
 
-from acre.cli import registry, baseargs
+from acre.cli import registry, baseargs, bailout
 from acre.cli.docker import Docker
 
 
@@ -15,5 +15,7 @@ def run(args):
     (myargs, options) = parser.parse_known_args()
 
     docker = Docker()
-    docker.build(update=myargs.update)
+    ec = docker.build(update=myargs.update)
+    if ec:
+        bailout("docker build failed")
     return docker.run(f'acre invoke {" ".join(options)}', cwd="testproject/", interactive=not myargs.noterm)

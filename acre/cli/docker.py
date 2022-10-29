@@ -1,5 +1,4 @@
 import os
-import uuid
 
 from acre.cli import venv
 
@@ -9,8 +8,12 @@ class Docker:
         self.image = image
 
     def build(self, update=False):
-        update = _get_update(update)
-        return venv.run(f"docker build {update} -t acre-{self.image} {_get_image(self.image)}")
+        ip = _get_image(self.image)
+        ec = venv.run(f"docker build -t acre-{self.image}1 -f {ip}/Dockerfile1 {ip}")
+        if ec:
+            return ec
+        nocache = "--no-cache" if update else ""
+        return venv.run(f"docker build {nocache} -t acre-{self.image} -f {ip}/Dockerfile2 {ip}")
 
     def run(self, command, cwd=".", mounts=[], interactive=False):
         portmap = "-p 9900:9900"
@@ -23,12 +26,6 @@ class Docker:
         for mount in mounts:
             map += f'-v {mount} '
         return f"{map}-v {os.getcwd()}:/acre/testproject"
-
-
-def _get_update(force=False):
-    if force:
-        return f"--build-arg=ACRE_UPDATE_REQUIREMENTS={uuid.uuid4()}"
-    return ""
 
 
 def _get_image(image):
