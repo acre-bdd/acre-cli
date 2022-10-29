@@ -1,5 +1,5 @@
 import sys
-from acrecli import log
+from acre.cli import log
 
 _commands = {}
 
