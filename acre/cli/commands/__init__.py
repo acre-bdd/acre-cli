@@ -4,4 +4,5 @@ from . import help
 from . import init
 from . import upgrade
 from . import run
+from . import invoke
 
