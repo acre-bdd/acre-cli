@@ -2,8 +2,8 @@ import sys
 import argparse
 from subprocess import run
 
-from acrecli import log
-from acrecli import registry
+from acre.cli import log
+from acre.cli import registry
 
 
 def _args():

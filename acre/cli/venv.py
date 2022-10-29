@@ -1,7 +1,7 @@
 import subprocess
 
-from acrecli import log
-from acrecli.acrepath import AcrePath
+from acre.cli import log
+from acre.cli.acrepath import AcrePath
 
 
 def run(command):
