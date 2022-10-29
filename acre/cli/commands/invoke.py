@@ -10,7 +10,7 @@ from acre.cli import registry, venv, baseargs
 def invoke(args):
     """ invoke a test run """
 
-    from acre.cli import AcrePath
+    from acre.cli.acrepath import AcrePath
 
     parser = argparse.ArgumentParser(description="acre invoke", usage=__doc__)
     baseargs.add_to(parser)
