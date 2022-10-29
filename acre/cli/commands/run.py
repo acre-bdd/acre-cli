@@ -1,6 +1,6 @@
 import argparse
 
-from acre.cli import registry
+from acre.cli import registry, baseargs
 from acre.cli.docker import Docker
 
 
@@ -8,9 +8,11 @@ from acre.cli.docker import Docker
 def run(args):
     """ run feature testst """
     parser = argparse.ArgumentParser(description="acre run <features>", usage=__doc__)
+    baseargs.add_to(parser)
+    parser.add_argument('--update', help='update acre requirements before run', action="store_true")
     parser.add_argument('run', nargs=1, help='run a test')
     (myargs, options) = parser.parse_known_args()
 
     docker = Docker()
-    docker.build()
-    docker.run("acre invoke {options}", cwd="testproject/")
+    docker.build(update=myargs.update)
+    docker.run(f'acre invoke {" ".join(options)}', cwd="testproject/")
