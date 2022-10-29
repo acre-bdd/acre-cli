@@ -6,4 +6,5 @@ from . import upgrade
 from . import update
 from . import run
 from . import invoke
+from . import bash
 
