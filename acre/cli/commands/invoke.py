@@ -2,7 +2,7 @@ import re
 import os
 import argparse
 
-from acre.cli import log, bailout
+from acre.cli import log
 from acre.cli import registry, venv, baseargs
 
 
@@ -10,7 +10,7 @@ from acre.cli import registry, venv, baseargs
 def invoke(args):
     """ invoke a test run """
 
-    from acre.cli.acrepath import AcrePath
+    from acre.tools.path import AcrePath
 
     parser = argparse.ArgumentParser(description="acre invoke", usage=__doc__)
     baseargs.add_to(parser)
