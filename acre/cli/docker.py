@@ -1,3 +1,4 @@
+import time
 import subprocess
 import os
 
@@ -19,23 +20,40 @@ class Docker:
         nocache = "--no-cache" if update else ""
         return venv.run(f"docker build {nocache} -t acre-{self.image} -f {ip}/Dockerfile2 {ip}")
 
-    def run(self, command, cwd=".", mounts=[], interactive=False, autoremove=True):
+    def run(self, command="", mounts=[], autoremove=True):
         portmap = "-p 9900:9900"
-        it = "-it" if interactive else ""
         name = f"--name {self.name}" if self.name else ""
         if autoremove:
             self.remove()
-        return venv.run(f"docker run {name} {it} {portmap} {self._mapping(mounts)} acre-{self.image}"
-                        f" /usr/local/bin/shell 'cd {cwd} && {command}'")
+        detach = "" if command else "--detach"
+        ec = venv.run(f"docker run {detach} {name} {portmap} {self._mapping(mounts)} acre-{self.image} {command}")
+        if ec == 0:
+            time.sleep(10)
+        return ec
+
+    def exec(self, command, cwd=".", interactive=False):
+        it = "-it" if interactive else ""
+        cmd = f"{command}"
+        venv.run(f"docker exec --workdir {cwd} {it} {self.name} /bin/bash -c '{cmd}'")
 
     def remove(self):
         """ removes a container, if it exists """
         if self.name and self.exists():
             return subprocess.run(f'{dockerbin} rm {self.name}', shell=True, stdout=subprocess.PIPE).returncode
 
+    def stop(self):
+        """stops the running container"""
+        return subprocess.run(f'{dockerbin} stop {self.name}',
+                              shell=True, stdout=subprocess.PIPE).returncode == 0
+
+    def is_running(self):
+        """ returns true if this container is running """
+        return subprocess.run(f'{dockerbin} container ls -f name={self.name} | grep {self.name}',
+                              shell=True, stdout=subprocess.PIPE).returncode == 0
+
     def exists(self):
         """ returns true if this container already exists """
-        return subprocess.run(f'{dockerbin} container ls --all | grep {self.name}',
+        return subprocess.run(f'{dockerbin} container ls --all -f name={self.name} | grep {self.name}',
                               shell=True, stdout=subprocess.PIPE).returncode == 0
 
     def _mapping(self, mounts):
