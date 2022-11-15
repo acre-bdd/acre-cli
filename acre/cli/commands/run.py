@@ -17,7 +17,7 @@ def run(args):
     parser.add_argument('run', nargs=1, help='run a test')
     (myargs, options) = parser.parse_known_args()
 
-    docker = Docker()
+    docker = Docker(name="acre")
     ec = docker.build(update=myargs.update)
     if ec:
         bailout("docker build failed")

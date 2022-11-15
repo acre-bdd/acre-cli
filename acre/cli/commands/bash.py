@@ -20,4 +20,4 @@ def bash(args):
     docker = Docker()
     if docker.build():
         bailout("docker build failed")
-    return docker.run(cmd, mounts=myargs.mount, interactive=True)
+    return docker.run(cmd, mounts=myargs.mount, cwd="testproject/", interactive=True)
