@@ -24,7 +24,8 @@ class Docker:
     def _mapping(self, mounts):
         map = ""
         for mount in mounts:
-            map += f'-v {mount} '
+            (source, target) = mount.split(":")
+            map += f'-v {os.path.abspath(source)}:{target} '
         return f"{map}-v {os.getcwd()}:/acre/testproject"
 
 
