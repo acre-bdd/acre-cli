@@ -29,7 +29,8 @@ class Docker:
         if ec:
             return ec
         nocache = "--no-cache" if update else ""
-        ec = venv.run(f"docker build {nocache} -t acre-{self.image} -f {ip}/Dockerfile2 {ip}")
+        args = f"--build-arg USER_ID={os.geteuid()}"
+        ec = venv.run(f"docker build {nocache} {args} -t acre-{self.image} -f {ip}/Dockerfile2 {ip}")
         if ec != 0:
             raise DockerException("docker build failed", ec)
 

@@ -6,6 +6,7 @@
 -   support --update for updating dependencies
 -   support --mount for mounting additional drives
 -   add `acre build` command for building images.
+-   pass USER\_ID as build arg to docker build to create user with correct id.
 
 ## v0.0.7
 > 2022-10-29
