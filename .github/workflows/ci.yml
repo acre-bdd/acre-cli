@@ -21,10 +21,13 @@ jobs:
         name: acre-bdd/acre-test
         path: acre-test
     
-    - name: install and initialise acre cli
+    - name: install and initialize acre cli
       run: |
         python3 -m pip install acre-cli/
         acre init
+
+    - name: build acre docker images
+      run: acre build
 
     - name: run acre-tests
       run: |

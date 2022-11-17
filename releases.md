@@ -5,6 +5,7 @@
 -   support to force rebuild and restart docker container
 -   support --update for updating dependencies
 -   support --mount for mounting additional drives
+-   add `acre build` command for building images.
 
 ## v0.0.7
 > 2022-10-29

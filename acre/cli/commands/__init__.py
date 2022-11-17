@@ -5,4 +5,5 @@ from . import init
 from . import upgrade
 from . import run
 from . import bash
+from . import build
 

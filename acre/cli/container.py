@@ -12,6 +12,12 @@ class Container:
         self.stop()
         return ec
 
+    def build(self, force=False):
+        if self.args.rebuild or force or not self.docker.exists():
+            self.stop(force=True)
+            logging.info("(re-)building docker image")
+            self.docker.build(self.args.update)
+
     def stop(self, force=False):
         if not self.args.stop and not force:
             return
@@ -21,10 +27,7 @@ class Container:
         self.docker.stop()
 
     def start(self):
-        if self.args.rebuild or not self.docker.exists():
-            self.stop(force=True)
-            logging.info("(re-)building docker image")
-            self.docker.build(update=self.args.update)
+        self.build()
 
         if self.args.restart:
             self.stop(force=True)
