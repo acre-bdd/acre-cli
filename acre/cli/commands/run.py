@@ -10,6 +10,9 @@ def run(arguments):
     """ run feature testst """
     parser = argparse.ArgumentParser(parents=[args.container, args.base],
                                      description="acre run <features>", usage=__doc__)
+    parser.add_argument('--upgrade',
+                        help='force radish-run to update dependencies before testrun',
+                        action="store_const", const="--upgrade", default="")
     parser.add_argument('--noterm', help='do not acquire a terminal for testrun', action="store_true")
     parser.add_argument('run', nargs=1, help='run a test')
     (myargs, options) = parser.parse_known_args()
