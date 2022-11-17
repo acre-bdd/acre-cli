@@ -32,6 +32,7 @@ jobs:
     - name: run acre-tests
       run: |
         cd acre-test
+        ls -la
         acre run --noterm features/
         
       
