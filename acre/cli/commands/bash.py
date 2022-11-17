@@ -19,6 +19,7 @@ def bash(arguments):
 
     cmd = f'{" ".join(options)}' if len(options) > 0 else 'bash'
     docker = Docker(name='acre')
+    myargs.nowait = True
     container = Container(docker, myargs)
     log.info(f"running: {cmd}")
     return container.exec(command=cmd, cwd="/acre", interactive=True)

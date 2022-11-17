@@ -41,10 +41,8 @@ class Docker:
             self.remove()
         detach = "" if command else "--detach"
         ec = venv.run(f"docker run {detach} {name} {portmap} {self._mapping(mounts)} acre-{self.image} {command}")
-        if ec == 0:
-            time.sleep(10)
-            return
-        raise DockerException("docker run failed", ec)
+        if ec != 0:
+            raise DockerException("docker run failed", ec)
 
     def exec(self, command, cwd=".", interactive=False):
         it = "-it" if interactive else ""

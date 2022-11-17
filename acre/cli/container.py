@@ -1,3 +1,4 @@
+import time
 import logging
 
 
@@ -17,6 +18,8 @@ class Container:
             self.stop(force=True)
             logging.info("(re-)building docker image")
             self.docker.build(self.args.update)
+            if 'nowait' in self.args:
+                time.sleep(10)
 
     def stop(self, force=False):
         if not self.args.stop and not force:
