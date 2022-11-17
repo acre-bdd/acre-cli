@@ -33,6 +33,12 @@ jobs:
       run: |
         cd acre-test
         acre run --noterm features/
+
+    - name: save artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-artifacts
+        path: acre-test/artifacts/*
         
       
 
