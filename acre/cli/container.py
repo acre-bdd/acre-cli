@@ -16,19 +16,21 @@ class Container:
             return
         if not self.docker.is_running():
             return
+        logging.warning("stopping running container")
         self.docker.stop()
 
     def start(self):
         if self.args.rebuild or not self.docker.exists():
-            if self.docker.is_running():
-                logging.warning("stopping running container")
-                self.docker.stop()
+            self.stop(force=True)
+            logging.info("(re-)building docker image")
             self.docker.build(update=self.args.update)
 
+        if self.args.restart:
+            self.stop(force=True)
+
         if self.docker.is_running():
-            if not self.args.restart:
-                return
-            self.docker.stop()
+            return
 
         self.docker.remove()
+        logging.info("starting docker container")
         self.docker.run(mounts=self.args.mount)
