@@ -1,0 +1,37 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        path: acre-cli
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        name: acre-bdd/acre-test
+        path: acre-test
+    
+    - name: install and initialise acre cli
+      run: |
+        python3 -m pip install acre-cli/
+        acre init
+
+    - name: run acre-tests
+      run: |
+        cd acre-test
+        acre run --noterm features/*
+        
+      
+
+
