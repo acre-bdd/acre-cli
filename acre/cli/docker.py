@@ -48,7 +48,7 @@ class Docker:
     def exec(self, command, cwd=".", interactive=False):
         it = "-it" if interactive else ""
         cmd = f"{command}"
-        venv.run(f"docker exec --workdir {cwd} {it} {self.name} /bin/bash -c '{cmd}'")
+        return venv.run(f"docker exec --workdir {cwd} {it} {self.name} /bin/bash -c '{cmd}'")
 
     def remove(self):
         """ removes a container, if it exists """
