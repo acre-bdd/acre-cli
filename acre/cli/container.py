@@ -26,8 +26,9 @@ class Container:
             self.docker.build(update=self.args.update)
 
         if self.docker.is_running():
-            if self.args.restart:
-                self.docker.stop()
-                self.docker.run(mounts=self.args.mount)
-        else:
-            self.docker.run(mounts=self.args.mount)
+            if not self.args.restart:
+                return
+            self.docker.stop()
+
+        self.docker.remove()
+        self.docker.run(mounts=self.args.mount)
