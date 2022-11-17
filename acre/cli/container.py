@@ -19,13 +19,11 @@ class Container:
         self.docker.stop()
 
     def start(self):
-        if self.args.rebuild:
+        if self.args.rebuild or not self.docker.exists():
             if self.docker.is_running():
                 logging.warning("stopping running container")
                 self.docker.stop()
-            ec = self.docker.build(update=self.args.update)
-            if ec:
-                raise Exception("failed to build docker container")
+            self.docker.build(update=self.args.update)
 
         if self.docker.is_running():
             if self.args.restart:
