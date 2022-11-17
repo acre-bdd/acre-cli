@@ -16,7 +16,6 @@ jobs:
       with:
         path: acre-cli
 
-    steps:
     - uses: actions/checkout@v2
       with:
         name: acre-bdd/acre-test
