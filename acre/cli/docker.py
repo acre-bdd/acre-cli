@@ -12,6 +12,11 @@ class DockerException(Exception):
         super().__init__(message)
         self.exitcode = exitcode
 
+    def __str__(self):
+        ret = super().__str__()
+        ret += f", exitcode: {self.exitcode}"
+        return ret
+
 
 class Docker:
     def __init__(self, image="base", name=None):
@@ -37,6 +42,7 @@ class Docker:
         ec = venv.run(f"docker run {detach} {name} {portmap} {self._mapping(mounts)} acre-{self.image} {command}")
         if ec == 0:
             time.sleep(10)
+            return
         raise DockerException("docker run failed", ec)
 
     def exec(self, command, cwd=".", interactive=False):
