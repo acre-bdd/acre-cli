@@ -24,7 +24,9 @@ class Docker:
         if ec:
             return ec
         nocache = "--no-cache" if update else ""
-        return venv.run(f"docker build {nocache} -t acre-{self.image} -f {ip}/Dockerfile2 {ip}")
+        ec = venv.run(f"docker build {nocache} -t acre-{self.image} -f {ip}/Dockerfile2 {ip}")
+        if ec != 0:
+            raise DockerException("docker build failed", ec)
 
     def run(self, command="", mounts=[], autoremove=True):
         portmap = "-p 9900:9900"
@@ -35,7 +37,7 @@ class Docker:
         ec = venv.run(f"docker run {detach} {name} {portmap} {self._mapping(mounts)} acre-{self.image} {command}")
         if ec == 0:
             time.sleep(10)
-        raise DockerException("docker build failed", ec)
+        raise DockerException("docker run failed", ec)
 
     def exec(self, command, cwd=".", interactive=False):
         it = "-it" if interactive else ""
