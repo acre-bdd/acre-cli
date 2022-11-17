@@ -3,8 +3,8 @@ import argparse
 from acre.cli import log
 from acre.cli import registry, venv, args
 
-cli_url = "git+https://github.com/realtimeprojects/acre-cli.git"
-docker_url = "git+https://github.com/realtimeprojects/acre-docker.git"
+cli_url = "git+https://github.com/acre-bdd/acre-cli.git"
+docker_url = "git+https://github.com/acre-bdd/acre-docker.git"
 
 
 @registry.command
