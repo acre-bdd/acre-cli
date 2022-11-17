@@ -1,18 +1,17 @@
 import argparse
 
 from acre.cli import log
-from acre.cli import registry, venv, baseargs
+from acre.cli import registry, venv, args
 
 cli_url = "git+https://github.com/realtimeprojects/acre-cli.git"
 docker_url = "git+https://github.com/realtimeprojects/acre-docker.git"
 
 
 @registry.command
-def upgrade(args):
+def upgrade(arguments):
     """ upgrade acre """
 
-    parser = argparse.ArgumentParser(description="acre init", usage=__doc__)
-    baseargs.add_to(parser)
+    parser = argparse.ArgumentParser(parents=[args.base], description="acre init", usage=__doc__)
 
     parser.add_argument('--cli', nargs="*", help='use given url for updating the acre cli')
     parser.add_argument('--docker', nargs="*", help='use given url for updating the acre docker base image')

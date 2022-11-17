@@ -1,15 +1,14 @@
 import argparse
 
 from acre.cli import log
-from acre.cli import registry, venv, baseargs
+from acre.cli import registry, venv, args
 
 
 @registry.command
-def init(args):
+def init(arguments):
     """ initialize acre virtual environment """
 
-    parser = argparse.ArgumentParser(description="acre init", usage=__doc__)
-    baseargs.add_to(parser)
+    parser = argparse.ArgumentParser(parents=[args.base], description="acre init", usage=__doc__)
     parser.add_argument('--docker', nargs=1, help='install acre-docker from the given url',
                         default=["git+https://github.com/realtimeprojects/acre-docker.git"])
     parser.add_argument('init', nargs=1, help='initialize acre')

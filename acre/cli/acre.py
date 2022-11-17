@@ -3,15 +3,13 @@ import sys
 import logging
 import argparse
 
-from . import registry
-from . import baseargs
+from . import registry, args
 
 
 def main():
     log = logging.getLogger()
 
-    parser = argparse.ArgumentParser(description="acre", add_help=False)
-    baseargs.add_to(parser)
+    parser = argparse.ArgumentParser(parents=[args.base], description="acre", add_help=False)
     parser.add_argument('command', nargs=1, help='acre command to run')
 
     (myargs, options) = parser.parse_known_args()
