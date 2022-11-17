@@ -8,8 +8,9 @@ class Container:
 
     def exec(self, **kwargs):
         self.start()
-        self.docker.exec(**kwargs)
+        ec = self.docker.exec(**kwargs)
         self.stop()
+        return ec
 
     def stop(self, force=False):
         if not self.args.stop and not force:
