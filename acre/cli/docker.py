@@ -7,6 +7,12 @@ from acre.cli import venv
 dockerbin = "docker"
 
 
+class DockerException(Exception):
+    def __init__(self, message, exitcode):
+        super().__init__(message)
+        self.exitcode = exitcode
+
+
 class Docker:
     def __init__(self, image="base", name=None):
         self.image = image
@@ -29,7 +35,7 @@ class Docker:
         ec = venv.run(f"docker run {detach} {name} {portmap} {self._mapping(mounts)} acre-{self.image} {command}")
         if ec == 0:
             time.sleep(10)
-        return ec
+        raise DockerException("docker build failed", ec)
 
     def exec(self, command, cwd=".", interactive=False):
         it = "-it" if interactive else ""
