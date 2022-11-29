@@ -19,13 +19,7 @@ def run(arguments):
     (myargs, options) = parser.parse_known_args()
 
     docker = Docker(name="acre")
-
-    if myargs.detach:
-        container = Container(docker, myargs)
-        fn = container.exec
-    else:
-        fn = docker.run
-
-    fn(command=f'run-radish {myargs.upgrade} {" ".join(options)}',
-       cwd="/acre/testproject/",
-       interactive=not myargs.noterm)
+    container = Container(docker, myargs)
+    container.do(command=f'run-radish {myargs.upgrade} {" ".join(options)}',
+                 cwd="/acre/testproject/",
+                 interactive=not myargs.noterm)

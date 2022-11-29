@@ -13,6 +13,16 @@ class Container:
         self.stop()
         return ec
 
+    def run(self, **kwargs):
+        self.build()
+        return self.docker.run(**kwargs)
+
+    def do(self, **kwargs):
+        if self.args.detach:
+            self.exec(**kwargs)
+        else:
+            self.run(**kwargs)
+
     def build(self, force=False):
         if self.args.rebuild or force or not self.docker.exists():
             self.stop(force=True)

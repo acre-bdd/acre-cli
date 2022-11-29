@@ -35,15 +35,16 @@ class Docker:
         if ec != 0:
             raise DockerException("docker build failed", ec)
 
-    def run(self, command="", cwd=".", interactive=False, mounts=[], autoremove=True):
+    def run(self, command="", cwd=None, interactive=False, mounts=[], autoremove=True):
         portmap = "-p 9900:9900"
         name = f"--name {self.name}" if self.name else ""
         it = "-it" if interactive else ""
         if autoremove:
             self.remove()
         detach = "" if command else "--detach"
-        args = f"{it} --workdir {cwd} {detach} {name} {portmap}"
-        ec = venv.run(f"docker run {args} {self._mapping(mounts)} acre-{self.image} {command}")
+        wd = f"--workdir {cwd}" if cwd else ""
+        args = f"{it} {wd} {detach} {name} {portmap}"
+        ec = venv.run(f"docker run {args} {self._mapping(mounts)} acre-{self.image} /usr/local/bin/shell {command}")
         if ec != 0:
             raise DockerException("docker run failed", ec)
 

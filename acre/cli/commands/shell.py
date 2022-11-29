@@ -22,4 +22,4 @@ def shell(arguments):
     myargs.nowait = True
     container = Container(docker, myargs)
     log.info(f"running: {cmd}")
-    return container.exec(command=cmd, cwd="/acre", interactive=True)
+    return container.do(command=cmd, cwd="/acre", interactive=True)
