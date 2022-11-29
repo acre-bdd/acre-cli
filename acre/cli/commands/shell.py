@@ -7,8 +7,8 @@ from acre.cli.container import Container
 
 
 @registry.command
-def bash(arguments):
-    """ run a bash inside the docker container """
+def shell(arguments):
+    """ run a shell inside the docker container """
 
     parser = argparse.ArgumentParser(parents=[args.base, args.container],
                                      description="acre bash",
@@ -17,7 +17,7 @@ def bash(arguments):
     (myargs, options) = parser.parse_known_args()
     log.debug(f"arguments: {myargs}")
 
-    cmd = f'{" ".join(options)}' if len(options) > 0 else 'bash'
+    cmd = f'{" ".join(options)}' if len(options) > 0 else 'sh'
     docker = Docker(name='acre')
     myargs.nowait = True
     container = Container(docker, myargs)

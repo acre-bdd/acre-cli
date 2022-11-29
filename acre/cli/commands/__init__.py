@@ -4,6 +4,6 @@ from . import help
 from . import init
 from . import upgrade
 from . import run
-from . import bash
+from . import shell
 from . import build
 
