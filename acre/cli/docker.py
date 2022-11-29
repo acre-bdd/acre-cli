@@ -1,6 +1,7 @@
 import time
 import subprocess
 import os
+import logging as log
 
 from acre.cli import venv
 
@@ -34,20 +35,22 @@ class Docker:
         if ec != 0:
             raise DockerException("docker build failed", ec)
 
-    def run(self, command="", mounts=[], autoremove=True):
+    def run(self, command="", cwd=".", interactive=False, mounts=[], autoremove=True):
         portmap = "-p 9900:9900"
         name = f"--name {self.name}" if self.name else ""
+        it = "-it" if interactive else ""
         if autoremove:
             self.remove()
         detach = "" if command else "--detach"
-        ec = venv.run(f"docker run {detach} {name} {portmap} {self._mapping(mounts)} acre-{self.image} {command}")
+        args = f"{it} --workdir {cwd} {detach} {name} {portmap}"
+        ec = venv.run(f"docker run {args} {self._mapping(mounts)} acre-{self.image} {command}")
         if ec != 0:
             raise DockerException("docker run failed", ec)
 
     def exec(self, command, cwd=".", interactive=False):
         it = "-it" if interactive else ""
         cmd = f"{command}"
-        return venv.run(f"docker exec --workdir {cwd} {it} {self.name} /bin/bash -c '{cmd}'")
+        return venv.run(f"docker exec --workdir {cwd} {it} {self.name} /bin/sh -c '{cmd}'")
 
     def remove(self):
         """ removes a container, if it exists """

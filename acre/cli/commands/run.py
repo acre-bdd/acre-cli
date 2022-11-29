@@ -14,11 +14,18 @@ def run(arguments):
                         help='force radish-run to update dependencies before testrun',
                         action="store_const", const="--upgrade", default="")
     parser.add_argument('--noterm', help='do not acquire a terminal for testrun', action="store_true")
+    parser.add_argument('--detach', help='run docker container in background and keep it running', action="store_true")
     parser.add_argument('run', nargs=1, help='run a test')
     (myargs, options) = parser.parse_known_args()
 
     docker = Docker(name="acre")
-    container = Container(docker, myargs)
-    return container.exec(command=f'run-radish {myargs.upgrade} {" ".join(options)}',
-                          cwd="/acre/testproject/",
-                          interactive=not myargs.noterm)
+
+    if myargs.detach:
+        container = Container(docker, myargs)
+        fn = container.exec
+    else:
+        fn = docker.run
+
+    fn(command=f'run-radish {myargs.upgrade} {" ".join(options)}',
+       cwd="/acre/testproject/",
+       interactive=not myargs.noterm)
