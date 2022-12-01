@@ -1,5 +1,5 @@
 import sys
-from acre.cli import log
+from acrelib import log
 
 _commands = {}
 
@@ -31,15 +31,12 @@ def help(command):
 
 
 def command(usage=None):
-    log.debug(f"x adding command: {usage}")
     if callable(usage):
         _commands[usage.__name__] = {'fn': usage, 'usage': None}
-        log.debug(f'commands: {_commands}')
         return
 
     def wrapper(wfn):
         _commands[wfn.__name__] = {'fn': wfn, 'usage': usage}
-    log.debug(f'commands: {_commands}')
     return wrapper
 
 

@@ -1,5 +1,5 @@
 import time
-import logging
+from acrelib import log
 
 
 class Container:
@@ -15,6 +15,8 @@ class Container:
 
     def run(self, **kwargs):
         self.build()
+        if self.args.mount:
+            kwargs['mounts'] = self.args.mount
         return self.docker.run(**kwargs)
 
     def do(self, **kwargs):
@@ -24,9 +26,9 @@ class Container:
             self.run(**kwargs)
 
     def build(self, force=False):
-        if self.args.rebuild or force or not self.docker.exists():
+        if self.args.rebuild or force or not self.docker.exists() or self.args.update:
             self.stop(force=True)
-            logging.info("(re-)building docker image")
+            log.info("(re-)building docker image")
             self.docker.build(self.args.update)
             if 'nowait' in self.args:
                 time.sleep(10)
@@ -36,7 +38,7 @@ class Container:
             return
         if not self.docker.is_running():
             return
-        logging.warning("stopping running container")
+        log.warning("stopping running container")
         self.docker.stop()
 
     def start(self):

@@ -2,7 +2,7 @@ import sys
 import argparse
 from subprocess import run
 
-from acre.cli import log
+from acrelib import log
 from acre.cli import registry
 
 

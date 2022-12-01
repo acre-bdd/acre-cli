@@ -1,6 +1,6 @@
 import argparse
 
-from acre.cli import log
+from acrelib import log
 from acre.cli import registry, args
 from acre.cli.docker import Docker
 from acre.cli.container import Container
@@ -21,5 +21,4 @@ def shell(arguments):
     docker = Docker(name='acre')
     myargs.nowait = True
     container = Container(docker, myargs)
-    log.info(f"running: {cmd}")
     return container.do(command=cmd, cwd="/acre", interactive=True)

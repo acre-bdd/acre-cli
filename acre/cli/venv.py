@@ -1,9 +1,8 @@
 import subprocess
 
-from acre.cli import log
+from acrelib import log
 
 
 def run(command):
-    cmd = f"{command}"
-    log.debug(f"running: {command}")
-    return subprocess.run(cmd, shell=True).returncode
+    log.trace(command)
+    return subprocess.run(command, shell=True).returncode

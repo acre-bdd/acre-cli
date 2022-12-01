@@ -1,6 +1,6 @@
 import argparse
 
-from acre.cli import log
+from acrelib import log
 from acre.cli import registry, venv, args
 
 

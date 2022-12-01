@@ -1,7 +1,5 @@
-import time
 import subprocess
 import os
-import logging as log
 
 from acre.cli import venv
 
