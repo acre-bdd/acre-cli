@@ -21,4 +21,4 @@ def shell(arguments):
     docker = Docker(name='acre')
     myargs.nowait = True
     container = Container(docker, myargs)
-    return container.do(command=cmd, cwd="/acre", interactive=True)
+    return container.do(command=cmd, cwd="/acre/testproject", interactive=True)
