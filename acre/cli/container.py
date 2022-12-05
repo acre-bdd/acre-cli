@@ -16,8 +16,29 @@ class Container:
 
     def run(self, **kwargs):
         self.build()
-        if self.args.mount:
-            kwargs['mounts'] = self.args.mount
+        mounts = []
+        mounts.extend([mount[0] for mount in self.args.mount])
+        pp = []
+        sp = []
+        env = []
+        for lib in self.args.lib:
+            lib = os.path.abspath(lib[0])
+            target = f"/tmp{lib}"
+            mount = f"{lib}:{target}"
+            mounts.append(mount)
+            pp.append(target)
+        for steplib in self.args.steps:
+            steplib = os.path.abspath(steplib[0])
+            target = f"/tmp{steplib}"
+            mount = f"{steplib}:{target}"
+            mounts.append(mount)
+            sp.append(target)
+        env.append(f"PYTHONPATH={':'.join(pp)}")
+        env.append(f"STEPSPATH={':'.join(sp)}")
+        if self.args.debug:
+            env.append('LOG_LEVEL=DEBUG')
+        kwargs['env'] = env
+        kwargs['mounts'] = mounts
         return self.docker.run(**kwargs)
 
     def do(self, **kwargs):

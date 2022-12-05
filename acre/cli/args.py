@@ -9,4 +9,9 @@ container.add_argument('--detach', help='run docker container in background and 
 
 base = argparse.ArgumentParser(description="acre run <features>", usage=__doc__, add_help=False)
 base.add_argument('--debug', action='store_true', help='enable debug logging', default=False)
-base.add_argument('--mount', nargs="*", help='mount additional directory into docker container', default=[])
+base.add_argument('--mount', nargs=1, help='mount additional directory into docker container',
+                  action="append", default=[])
+base.add_argument('--steps', nargs=1, help='mount <steps> directory to container and add it to the steps path',
+                  action="append", default=[])
+base.add_argument('--lib', nargs=1, help='mount <lib> directory to container and add it to the PYTHONPATH',
+                  action="append", default=[])
