@@ -1,5 +1,6 @@
+import os
 import time
-from acrelib import log
+from pylogx import log
 
 
 class Container:
@@ -51,5 +52,5 @@ class Container:
             return
 
         self.docker.remove()
-        logging.info("starting docker container")
+        log.hint("starting docker container")
         self.docker.run(mounts=self.args.mount)

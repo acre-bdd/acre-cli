@@ -1,5 +1,5 @@
 import sys
-from acrelib import log
+from pylogx import log
 
 _commands = {}
 

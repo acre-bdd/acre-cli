@@ -1,6 +1,6 @@
 import argparse
 
-from acrelib import log
+from pylogx import log
 from acre.cli import registry, venv, args
 
 cli_url = "git+https://github.com/acre-bdd/acre-cli.git"

@@ -1,6 +1,6 @@
 import argparse
 
-from acrelib import log
+from pylogx import log
 from acre.cli import registry, args
 from acre.cli.docker import Docker
 from acre.cli.container import Container

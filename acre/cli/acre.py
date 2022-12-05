@@ -2,9 +2,11 @@
 import sys
 import argparse
 
-from acrelib import log
+from pylogx import log, enable_colors, Level
 
 from . import registry, args
+
+enable_colors(ups=[Level.NOTE])
 
 
 def main():
@@ -12,10 +14,10 @@ def main():
     parser.add_argument('command', nargs=1, help='acre command to run')
 
     (myargs, options) = parser.parse_known_args()
-    if myargs.debug:
-        log.setLevel(log.DEBUG)
+    level = Level.DEBUG if myargs.debug else Level.NOTE
+    log.setLevel(level)
     log.debug(myargs)
-    log.debug('loading commands...')
+    log.note('loading commands...')
     from . import commands  # noqa: F401
 
     return registry.invoke(myargs.command[0], myargs)
